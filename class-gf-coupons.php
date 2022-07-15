@@ -229,9 +229,9 @@ class GFCoupons extends GFFeedAddOn {
 		$meta['usageCount'] = $starting_count + 1;
 
 		if(is_user_logged_in(  )){
-			$userUsage = get_user_meta(get_current_user_id(  ), 'coupon_usage_by_user', true);
+			$userUsage = get_user_meta(get_current_user_id(  ), 'coupon_usage_by_user-'.$feed['id'], true);
 			$userUsage = (($userUsage) ? intval($userUsage): 0);
-			update_user_meta(get_current_user_id(  ), 'coupon_usage_by_user', $userUsage+1);
+			update_user_meta(get_current_user_id(  ), 'coupon_usage_by_user-'.$feed['id'], $userUsage+1);
 		}
 
 		$this->update_feed_meta( $feed['id'], $meta );
@@ -1351,7 +1351,7 @@ class GFCoupons extends GFFeedAddOn {
 			$is_under_limit = true;
 			if(is_user_logged_in(  )){
 				$coupon_usage_by_user   = empty( $config['meta']['userLimit'] ) ? 0 : intval( $config['meta']['userLimit'] );
-				$userUsage = get_user_meta(get_current_user_id(  ), 'coupon_usage_by_user', true);
+				$userUsage = get_user_meta(get_current_user_id(  ), 'coupon_usage_by_user-'.$config['id'], true);
 				
 				if($coupon_usage_by_user > 0 && $coupon_usage_by_user === intval($userUsage)){
 					$invalid_reason = esc_html__( 'You have used this coupon already.', 'gravityformscoupons' );
